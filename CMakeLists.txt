@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.8)
 project ("Pathfinder")
 
 # Ajoutez une source à l'exécutable de ce projet.
-add_executable (Pathfinder "main.cpp" )
+add_executable (Pathfinder "Src/Main.cpp"  "Tools/DesignPatterns/Singleton.h"    "Engine/Game/Game.h" "Engine/Game/Game.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Pathfinder PROPERTY CXX_STANDARD 20)
