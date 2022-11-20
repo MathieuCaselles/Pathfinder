@@ -11,21 +11,19 @@ class Game : public Singleton<Game>
     friend class Singleton<Game>;
 
 public:
-    std::unique_ptr<sf::RenderWindow> m_pWindow;
-    static const sf::VideoMode g_videoMode;
-    static const std::string g_windowTitle;
+    sf::RenderWindow m_window;
 
     ~Game();
-    void Run();
+    void Run(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML");
 
 private:
     Game();
 
-    void InitWindow();
+    void initWindow(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML");
 
-    void ProcessInput();
-    void Update(float deltaTime);
-    void Render();
+    void processInput();
+    void update(float deltaTime);
+    void render();
 
 };
 

@@ -7,18 +7,20 @@ Game::~Game()
     // TODO delete scenes ?
 }
 
-void Game::Run()
+void Game::Run(sf::VideoMode videoMode, std::string windowTitle)
 {
+    initWindow(videoMode, windowTitle);
+
     sf::Clock DeltaTimeClock;
     float deltaTime;
 
-    while (m_pWindow->isOpen()) {
+    while (m_window.isOpen()) {
 
         deltaTime = DeltaTimeClock.restart().asSeconds();
 
-        ProcessInput();
-        Update(deltaTime);
-        Render();
+        processInput();
+        update(deltaTime);
+        render();
     }
 }
 
@@ -26,44 +28,45 @@ void Game::Run()
 
 // private
 Game::Game()
-    : m_pWindow(std::make_unique<sf::RenderWindow>(sf::VideoMode(1920, 1080), "Pathfinder"))
+    : m_window(sf::RenderWindow())
 {
     // TODO init scenes ?
     std::cout << "ça marche" << std::endl;
 }
 
 
-void Game::InitWindow()
+void Game::initWindow(sf::VideoMode videoMode, std::string windowTitle)
 {
-    m_pWindow->setVerticalSyncEnabled(true);
+    m_window.create(videoMode, windowTitle);
+    m_window.setVerticalSyncEnabled(true);
 }
 
-void Game::ProcessInput()
+void Game::processInput()
 {
 
     // TODO signal pattern
     sf::Event event;
-    while (m_pWindow->pollEvent(event))
+    while (m_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
-            m_pWindow->close();
+            m_window.close();
     }
 }
 
-void Game::Update(float deltaTime)
+void Game::update(float deltaTime)
 {
     // TODO update scenes
 }
 
-void Game::Render()
+void Game::render()
 {
-    m_pWindow->clear();
+    m_window.clear();
 
     // TODO render scenes
 
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
-    m_pWindow->draw(shape);
+    m_window.draw(shape);
 
-    m_pWindow->display();
+    m_window.display();
 }
