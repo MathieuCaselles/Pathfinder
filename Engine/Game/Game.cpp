@@ -1,14 +1,19 @@
+#include <cassert>
+#include <memory>
+#include <SFML/Graphics.hpp>
 #include "Game.h"
-
+#include "../Scene/Scene.h"
 
 
 Game::~Game()
 {
-    // TODO delete scenes ?
+    clearScenes();
 }
 
-void Game::Run(sf::VideoMode videoMode, std::string windowTitle)
+void Game::run(sf::VideoMode videoMode, std::string windowTitle)
 {
+    assert(("m_pCurrentScene is nullptr", m_pCurrentScene != nullptr));
+
     initWindow(videoMode, windowTitle);
 
     sf::Clock DeltaTimeClock;
@@ -24,14 +29,33 @@ void Game::Run(sf::VideoMode videoMode, std::string windowTitle)
     }
 }
 
+sf::RenderWindow* Game::getWindow()
+{
+    return &m_window;
+}
+
+
+
+void Game::setCurrentScene(const size_t index)
+{
+    m_pCurrentScene = m_scenes.at(index);
+}
+
+void Game::clearScenes()
+{
+    for (Scene* pScene : m_scenes)
+    {
+        delete pScene;
+    }
+    m_scenes.clear();
+}
+
 
 
 // private
 Game::Game()
-    : m_window(sf::RenderWindow())
+    : m_window(sf::RenderWindow()), m_pCurrentScene(nullptr)
 {
-    // TODO init scenes ?
-    std::cout << "ça marche" << std::endl;
 }
 
 
@@ -43,30 +67,24 @@ void Game::initWindow(sf::VideoMode videoMode, std::string windowTitle)
 
 void Game::processInput()
 {
-
-    // TODO signal pattern
     sf::Event event;
     while (m_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
             m_window.close();
+
+        m_pCurrentScene->processInput(event);
     }
 }
 
 void Game::update(float deltaTime)
 {
-    // TODO update scenes
+    m_pCurrentScene->update(deltaTime);
 }
 
 void Game::render()
 {
     m_window.clear();
-
-    // TODO render scenes
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-    m_window.draw(shape);
-
+    m_pCurrentScene->render();
     m_window.display();
 }
