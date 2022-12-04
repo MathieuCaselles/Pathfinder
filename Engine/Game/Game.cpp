@@ -1,8 +1,8 @@
 #include <cassert>
 #include <memory>
 #include <SFML/Graphics.hpp>
-#include "Game.h"
 #include "../Scene/Scene.h"
+#include "Game.h"
 
 
 Game::~Game()
@@ -43,7 +43,7 @@ void Game::setCurrentScene(const size_t index)
 
 void Game::clearScenes()
 {
-    for (Scene* pScene : m_scenes)
+    for (IScene* pScene : m_scenes)
     {
         delete pScene;
     }
@@ -77,7 +77,7 @@ void Game::processInput()
     }
 }
 
-void Game::update(float deltaTime)
+void Game::update(const float& deltaTime)
 {
     m_pCurrentScene->update(deltaTime);
 }

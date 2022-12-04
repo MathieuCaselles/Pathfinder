@@ -1,18 +1,20 @@
 #include <SFML/Graphics.hpp>
+#include "../GameObjects/ExampleButton.h"
 #include "DefaultScene.h"
-
-DefaultScene::DefaultScene(): Scene()
+DefaultScene::DefaultScene(): IScene()
 {
+    addGameObjects(new ExampleButton);
 }
 
 DefaultScene::~DefaultScene()
 {
 }
-void DefaultScene::processInput(sf::Event inputEvent)
+
+void DefaultScene::processInput(sf::Event& inputEvent)
 {
 }
 
-void DefaultScene::update(float deltaTime)
+void DefaultScene::update(const float& deltaTime)
 {
 }
 
