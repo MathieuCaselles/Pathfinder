@@ -1,12 +1,8 @@
 #ifndef INPUTCOMPONENT_H
 #define INPUTCOMPONENT_H
+#include <SFML/Graphics.hpp>
 
 class IGameObject;
-
-namespace sf {
-    class Event;
-}
-
 
 struct IInputComponent
 {

@@ -1,7 +1,7 @@
-#include <SFML/Graphics.hpp>
+#include "Scene.h"
+
 #include "../Game/Game.h"
 #include "../GameObject/GameObject.h"
-#include "Scene.h"
 
 IScene::IScene(): m_window(*Game::GetInstance()->getWindow())
 {

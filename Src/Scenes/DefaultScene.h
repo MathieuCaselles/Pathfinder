@@ -1,6 +1,7 @@
 #ifndef DEFAULTSCENE_H
 #define DEFAULTSCENE_H
 #include "../../Engine/Scene/Scene.h"
+#include <SFML/Graphics.hpp>
 
 
 class DefaultScene : public IScene

@@ -1,6 +1,6 @@
-#include <SFML/Graphics.hpp>
-#include "../GameObjects/ExampleButton.h"
 #include "DefaultScene.h"
+
+#include "../GameObjects/ExampleButton.h"
 DefaultScene::DefaultScene(): IScene()
 {
     addGameObjects(new ExampleButton);

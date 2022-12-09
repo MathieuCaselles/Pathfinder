@@ -1,11 +1,8 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
+#include <SFML/Graphics.hpp>
 
 class IGameObject;
-
-namespace sf {
-    class RenderWindow;
-}
 
 
 struct IGraphicsComponent

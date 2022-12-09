@@ -1,5 +1,6 @@
 #ifndef PHYSICSCOMPONENT_H
 #define PHYSICSCOMPONENT_H
+#include <SFML/Graphics.hpp>
 
 class IGameObject;
 

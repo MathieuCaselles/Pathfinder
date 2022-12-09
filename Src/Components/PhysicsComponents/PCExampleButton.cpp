@@ -1,5 +1,6 @@
-#include <iostream>
 #include "PCExampleButton.h"
+
+#include <iostream>
 
 PCExampleButton::PCExampleButton()
 {

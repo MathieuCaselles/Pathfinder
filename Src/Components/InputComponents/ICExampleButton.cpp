@@ -1,5 +1,6 @@
-#include <iostream>
 #include "ICExampleButton.h"
+
+#include <iostream>
 
 ICExampleButton::ICExampleButton()
 {

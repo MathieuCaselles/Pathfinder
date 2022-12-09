@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "../../Tools/DesignPatterns/Singleton.h"
+#include <SFML/Graphics.hpp>
 
 class IScene;
 

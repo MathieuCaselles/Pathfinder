@@ -1,8 +1,7 @@
+#include "Game.h"
 #include <cassert>
 #include <memory>
-#include <SFML/Graphics.hpp>
 #include "../Scene/Scene.h"
-#include "Game.h"
 
 
 Game::~Game()

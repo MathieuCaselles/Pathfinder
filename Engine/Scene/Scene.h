@@ -1,8 +1,12 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <SFML/Graphics.hpp>
+
 
 class IGameObject;
+
+
 
 class IScene 
 {

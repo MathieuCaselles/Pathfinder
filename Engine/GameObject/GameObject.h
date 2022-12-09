@@ -1,11 +1,15 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include "../Components/InputComponent.h"
+#include "../Components/PhysicsComponent.h"
+#include "../Components/GraphicsComponent.h"
+
+#include <SFML/Graphics.hpp>
+
+
 class IScene;
-namespace sf {
-	class RenderWindow;
-	class Event;
-}
+
 
 class IGameObject
 {

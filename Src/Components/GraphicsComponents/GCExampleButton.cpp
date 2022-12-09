@@ -1,5 +1,6 @@
-#include <iostream>
 #include "GCExampleButton.h"
+
+#include <iostream>
 
 GCExampleButton::GCExampleButton()
 {
