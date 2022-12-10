@@ -1,7 +1,6 @@
+#include "Game.h"
 #include <cassert>
 #include <memory>
-#include <SFML/Graphics.hpp>
-#include "Game.h"
 #include "../Scene/Scene.h"
 
 
@@ -12,7 +11,7 @@ Game::~Game()
 
 void Game::run(sf::VideoMode videoMode, std::string windowTitle)
 {
-    assert(("m_pCurrentScene is nullptr", m_pCurrentScene != nullptr));
+    assert("m_pCurrentScene is nullptr", m_pCurrentScene != nullptr);
 
     initWindow(videoMode, windowTitle);
 
@@ -43,7 +42,7 @@ void Game::setCurrentScene(const size_t index)
 
 void Game::clearScenes()
 {
-    for (Scene* pScene : m_scenes)
+    for (IScene* pScene : m_scenes)
     {
         delete pScene;
     }
@@ -77,7 +76,7 @@ void Game::processInput()
     }
 }
 
-void Game::update(float deltaTime)
+void Game::update(const float& deltaTime)
 {
     m_pCurrentScene->update(deltaTime);
 }

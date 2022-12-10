@@ -3,9 +3,8 @@
 
 #include "../../Tools/DesignPatterns/Singleton.h"
 #include <SFML/Graphics.hpp>
-#include <memory>
 
-class Scene;
+class IScene;
 
 class Game : public Singleton<Game>
 {
@@ -32,15 +31,15 @@ private:
     void initWindow(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML");
 
     void processInput();
-    void update(float deltaTime);
+    void update(const float& deltaTime);
     void render();
 
 
     // attributes
     sf::RenderWindow m_window;
 
-    std::vector<Scene*> m_scenes;
-    Scene* m_pCurrentScene;
+    std::vector<IScene*> m_scenes;
+    IScene* m_pCurrentScene;
 };
 
 #endif // GAME_H

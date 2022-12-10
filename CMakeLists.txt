@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.8)
 project ("Pathfinder")
 
 # Ajoutez une source à l'exécutable de ce projet.
-add_executable (Pathfinder "Src/Main.cpp"  "Tools/DesignPatterns/Singleton.h" "Engine/Game/Game.h" "Engine/Game/Game.cpp" "Engine/Scene/Scene.h" "Engine/Scene/Scene.cpp" "Src/Scenes/DefaultScene.h" "Src/Scenes/DefaultScene.cpp"  "Src/Scenes/SceneEnum.h")
+add_executable (Pathfinder "Src/Main.cpp"  "Tools/DesignPatterns/Singleton.h" "Engine/Game/Game.h" "Engine/Game/Game.cpp" "Engine/Scene/Scene.h" "Engine/Scene/Scene.cpp" "Src/Scenes/DefaultScene.h" "Src/Scenes/DefaultScene.cpp"  "Src/Scenes/SceneEnum.h" "Engine/Components/PhysicsComponent.h" "Engine/Components/InputComponent.h"  "Engine/Components/GraphicsComponent.h" "Tools/DesignPatterns/Composite.h" "Engine/GameObject/GameObject.h" "Src/GameObjects/UI/Button.h"  "Src/Components/InputComponents/UI/ICButton.h" "Src/Components/PhysicsComponents/UI/PCButton.h" "Src/Components/PhysicsComponents/UI/PCButton.cpp" "Src/Components/InputComponents/UI/ICButton.h" "Src/Components/InputComponents/UI/ICButton.cpp" "Src/Components/GraphicsComponents/UI/GCButton.h" "Src/Components/GraphicsComponents/UI/GCButton.cpp" "Src/GameObjects/UI/Button.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Pathfinder PROPERTY CXX_STANDARD 20)
