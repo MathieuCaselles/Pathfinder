@@ -11,7 +11,7 @@ Game::~Game()
 
 void Game::run(sf::VideoMode videoMode, std::string windowTitle)
 {
-    assert(("m_pCurrentScene is nullptr", m_pCurrentScene != nullptr));
+    assert("m_pCurrentScene is nullptr", m_pCurrentScene != nullptr);
 
     initWindow(videoMode, windowTitle);
 

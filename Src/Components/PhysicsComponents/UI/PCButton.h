@@ -1,14 +1,14 @@
 #ifndef PCEXAMPLEBUTTON_H
 #define PCEXAMPLEBUTTON_H
 
-#include "../../../Engine/Components/PhysicsComponent.h"
+#include "../../../../Engine/Components/PhysicsComponent.h"
 
 class IGameObject;
 
 
-struct PCExampleButton : IPhysicsComponent 
+struct PCButton : IPhysicsComponent
 {
-	PCExampleButton();
+	PCButton();
 	void updateImplementation(const float& deltaTime, IGameObject& gameObject, IScene& scene) override;
 };
 

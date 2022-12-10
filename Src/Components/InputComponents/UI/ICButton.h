@@ -1,15 +1,18 @@
 #ifndef ICEXAMPLEBUTTON_H
 #define ICEXAMPLEBUTTON_H
 
-#include "../../../Engine/Components/InputComponent.h"
+#include "../../../../Engine/Components/InputComponent.h"
 
 class IGameObject;
 
 
-struct ICExampleButton : IInputComponent 
+struct ICButton : IInputComponent 
 {
-	ICExampleButton();
+	ICButton();
 	void processInputImplementation(IGameObject& gameObject, sf::Event& inputEvent) override;
+
+private: 
+	bool m_callbackIsCalled;
 };
 
 #endif // ICEXAMPLEBUTTON_H

@@ -1,14 +1,14 @@
 #ifndef GCEXAMPLEBUTTON_H
 #define GCEXAMPLEBUTTON_H
 
-#include "../../../Engine/Components/GraphicsComponent.h"
+#include "../../../../Engine/Components/GraphicsComponent.h"
 
 class IGameObject;
 
 
-struct GCExampleButton : IGraphicsComponent 
+struct GCButton : IGraphicsComponent 
 {
-	GCExampleButton();
+	GCButton();
 	void renderImplementation(IGameObject& gameObject, sf::RenderWindow& window) override;
 };
 
