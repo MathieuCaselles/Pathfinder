@@ -32,7 +32,7 @@ void IScene::processInput(sf::Event& inputEvent)
 {
 	for (IGameObject* pGameObject : m_gameObjects)
 	{
-		pGameObject->processInput(inputEvent);
+		pGameObject->processInput(inputEvent, *this);
 	}
 }
 

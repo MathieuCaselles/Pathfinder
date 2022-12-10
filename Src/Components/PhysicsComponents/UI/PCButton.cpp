@@ -1,9 +1,8 @@
 #include "PCButton.h"
 
 #include "../../../GameObjects/UI/Button.h"
-#include "../../../Scenes/DefaultScene.h"
 
-PCButton::PCButton()
+PCButton::PCButton() : m_callbackIsCalled(false)
 {
 }
 
@@ -11,37 +10,13 @@ void PCButton::updateImplementation(const float& deltaTime, IGameObject& gameObj
 {
 	Button& button = reinterpret_cast<Button&>(gameObject);
 
-
-	button.setButtonState(BUTTON_IDLE);
-
-	sf::RectangleShape& buttonShape = button.getEditableShape();
-
-	if (buttonShape.getGlobalBounds().contains(scene.getMousePositionView()))
+	if (button.getButtonState() == BUTTON_PRESSED && !m_callbackIsCalled)
 	{
-		button.setButtonState(BUTTON_HOVER);
-
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			button.setButtonState(BUTTON_PRESSED);
-		}
+		button.useCallback();
+		m_callbackIsCalled = true;
 	}
-
-	switch (button.getButtonState())
-	{
-	case BUTTON_IDLE:
-		buttonShape.setFillColor(button.getIdleColor());
-		break;
-
-	case BUTTON_HOVER:
-		buttonShape.setFillColor(button.getHoverColor());
-		break;
-
-	case BUTTON_PRESSED:
-		buttonShape.setFillColor(button.getPressedColor());
-		break;
-
-	default:
-		buttonShape.setFillColor(sf::Color::Red);
-		break;
+	else if (button.getButtonState() != BUTTON_PRESSED && m_callbackIsCalled) {
+		m_callbackIsCalled = false;
 	}
+	
 }

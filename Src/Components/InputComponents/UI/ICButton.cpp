@@ -1,21 +1,47 @@
 #include "ICButton.h"
 
 #include "../../../GameObjects/UI/Button.h"
+#include "../../../Scenes/DefaultScene.h"
 
-ICButton::ICButton(): m_callbackIsCalled(false)
+ICButton::ICButton()
 {
 }
 
-void ICButton::processInputImplementation(IGameObject& gameObject, sf::Event& inputEvent)
+void ICButton::processInputImplementation(IGameObject& gameObject, sf::Event& inputEvent, IScene& scene)
 {
 	Button& button = reinterpret_cast<Button&>(gameObject);
 
-	if (button.getButtonState() == BUTTON_PRESSED && !m_callbackIsCalled)
+
+	button.setButtonState(BUTTON_IDLE);
+
+	sf::RectangleShape& buttonShape = button.getEditableShape();
+
+	if (buttonShape.getGlobalBounds().contains(scene.getMousePositionView()))
 	{
-		button.useCallback();
-		m_callbackIsCalled = true;
+		button.setButtonState(BUTTON_HOVER);
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			button.setButtonState(BUTTON_PRESSED);
+		}
 	}
-	else if (button.getButtonState() != BUTTON_PRESSED && m_callbackIsCalled) {
-		m_callbackIsCalled = false;
+
+	switch (button.getButtonState())
+	{
+	case BUTTON_IDLE:
+		buttonShape.setFillColor(button.getIdleColor());
+		break;
+
+	case BUTTON_HOVER:
+		buttonShape.setFillColor(button.getHoverColor());
+		break;
+
+	case BUTTON_PRESSED:
+		buttonShape.setFillColor(button.getPressedColor());
+		break;
+
+	default:
+		buttonShape.setFillColor(sf::Color::Red);
+		break;
 	}
 }

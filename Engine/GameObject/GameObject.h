@@ -16,7 +16,7 @@ class IGameObject
 public:
 	virtual ~IGameObject() {};
 
-	virtual void processInput(sf::Event& inputEvent) = 0;
+	virtual void processInput(sf::Event& inputEvent, IScene& scene) = 0;
 	virtual void update(const float& deltaTime, IScene& scene) = 0;
 	virtual void render(sf::RenderWindow& window) = 0;
 };
@@ -25,9 +25,9 @@ template<typename... MixinGameComponents>
 class GameObject : public IGameObject, public MixinGameComponents...
 {
 public:
-	void processInput(sf::Event& inputEvent) override
+	void processInput(sf::Event& inputEvent, IScene& scene) override
 	{
-		this->processInputImplementation(*this, inputEvent);
+		this->processInputImplementation(*this, inputEvent, scene);
 	}
 
 	void update(const float& deltaTime, IScene& scene) override

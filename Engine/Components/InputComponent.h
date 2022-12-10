@@ -3,11 +3,12 @@
 #include <SFML/Graphics.hpp>
 
 class IGameObject;
+class IScene;
 
 struct IInputComponent
 {
     virtual ~IInputComponent() = default;
-    virtual void processInputImplementation(IGameObject& gameObject, sf::Event& inputEvent) = 0;
+    virtual void processInputImplementation(IGameObject& gameObject, sf::Event& inputEvent, IScene& scene) = 0;
 };
 
 
