@@ -11,6 +11,7 @@ public:
     DefaultScene();
     ~DefaultScene();
 
+    void initButtons();
 
     void processInput(sf::Event& inputEvent) override;
     void update(const float& deltaTime) override;
