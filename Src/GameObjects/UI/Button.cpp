@@ -1,17 +1,19 @@
 #include "Button.h"
 
-#include <iostream>
+Button::Button(float x, float y, float width, float height, std::function<void(Button* button)> const& callback) :
+	m_buttonState(BUTTON_IDLE), m_idleColor(sf::Color::White), m_hoverColor(sf::Color::White), m_pressedColor(sf::Color::White), m_callback(callback)
+{
+	initShape(x, y, width, height);
+}
 
-Button::Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void()> const& callback) :
+Button::Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void(Button* button)> const& callback) :
 	m_buttonState(BUTTON_IDLE), m_idleColor(idleColor), m_hoverColor(hoverColor), m_pressedColor(activeColor), m_callback(callback)
 {
 
-	m_shape.setPosition(sf::Vector2f(x, y));
-	m_shape.setSize(sf::Vector2f(width, height));
+	initShape(x, y, width, height);
 
 
 	if (!m_font.loadFromFile("../../../Assets/Fonts/MinecraftFont.ttf")) {
-		std::cout << "wtf" << std::endl;
 		throw("ERROR::BUTTTON::COULD NOT LOAD FONT");
 	}
 
@@ -26,7 +28,6 @@ Button::Button(float x, float y, float width, float height, std::string text, sf
 
 	m_text.setPosition(centerXOfButtons, centerYOfButtons);
 
-	m_shape.setFillColor(m_idleColor);
 }
 
 
@@ -43,6 +44,25 @@ void Button::setButtonState(int newState)
 {
 	if (newState >= BUTTON_IDLE && newState <= BUTTON_PRESSED)
 		m_buttonState = newState;
+
+	switch (m_buttonState)
+	{
+	case BUTTON_IDLE:
+		m_shape.setFillColor(m_idleColor);
+		break;
+
+	case BUTTON_HOVER:
+		m_shape.setFillColor(m_hoverColor);
+		break;
+
+	case BUTTON_PRESSED:
+		m_shape.setFillColor(m_pressedColor);
+		break;
+
+	default:
+		m_shape.setFillColor(sf::Color::Red);
+		break;
+	}
 }
 
 const sf::RectangleShape& Button::getShape()
@@ -77,8 +97,14 @@ const sf::Color& Button::getPressedColor()
 
 void Button::useCallback()
 {
-	m_callback();
+	m_callback(this);
 }
 
+void Button::initShape(float x, float y, float width, float height)
+{
+	m_shape.setPosition(sf::Vector2f(x, y));
+	m_shape.setSize(sf::Vector2f(width, height));
+	m_shape.setFillColor(m_idleColor);
+}
 
 

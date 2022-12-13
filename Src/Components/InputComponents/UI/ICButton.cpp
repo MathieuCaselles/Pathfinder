@@ -26,22 +26,4 @@ void ICButton::processInputImplementation(IGameObject& gameObject, sf::Event& in
 		}
 	}
 
-	switch (button.getButtonState())
-	{
-	case BUTTON_IDLE:
-		buttonShape.setFillColor(button.getIdleColor());
-		break;
-
-	case BUTTON_HOVER:
-		buttonShape.setFillColor(button.getHoverColor());
-		break;
-
-	case BUTTON_PRESSED:
-		buttonShape.setFillColor(button.getPressedColor());
-		break;
-
-	default:
-		buttonShape.setFillColor(sf::Color::Red);
-		break;
-	}
 }

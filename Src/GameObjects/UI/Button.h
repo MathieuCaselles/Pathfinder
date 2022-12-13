@@ -1,5 +1,5 @@
-#ifndef EXAMPLEBUTTON_H
-#define EXAMPLEBUTTON_H
+#ifndef BUTTON_H
+#define BUTTON_H
 
 #include <functional>
 
@@ -14,11 +14,12 @@ enum button_states { BUTTON_IDLE = 0, BUTTON_HOVER, BUTTON_PRESSED };
 
 class Button: public GameObject<ICButton, PCButton, GCButton> {
 public:
-	Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void()> const& m_callback);
+	Button(float x, float y, float width, float height, std::function<void(Button* button)> const& callback);
+	Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void(Button* button)> const& callback);
 	~Button();
 
 	const int& getButtonState();
-	void setButtonState(int newState);
+	virtual void setButtonState(int newState);
 
 	const sf::RectangleShape& getShape();
 	sf::RectangleShape& getEditableShape();
@@ -31,7 +32,9 @@ public:
 
 	void useCallback();
 
-private:
+protected:
+	void initShape(float x, float y, float width, float height);
+
 	int m_buttonState;
 
 	sf::RectangleShape m_shape;
@@ -43,9 +46,9 @@ private:
 	sf::Color m_hoverColor;
 	sf::Color m_pressedColor;
 
-	std::function<void()> m_callback;
+	std::function<void(Button* button)> m_callback;
 };
 
 
-#endif // EXAMPLEBUTTON_H
+#endif // BUTTON_H
 
