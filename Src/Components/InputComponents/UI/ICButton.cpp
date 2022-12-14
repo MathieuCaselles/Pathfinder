@@ -2,7 +2,6 @@
 
 #include "../../../GameObjects/UI/Button.h"
 #include "../../../Scenes/DefaultScene.h"
-
 ICButton::ICButton()
 {
 }
@@ -11,7 +10,7 @@ void ICButton::processInputImplementation(IGameObject& gameObject, sf::Event& in
 {
 	Button& button = reinterpret_cast<Button&>(gameObject);
 
-
+	
 	button.setButtonState(BUTTON_IDLE);
 
 	sf::RectangleShape& buttonShape = button.getEditableShape();
@@ -20,7 +19,7 @@ void ICButton::processInputImplementation(IGameObject& gameObject, sf::Event& in
 	{
 		button.setButtonState(BUTTON_HOVER);
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Right))
 		{
 			button.setButtonState(BUTTON_PRESSED);
 		}

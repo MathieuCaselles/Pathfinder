@@ -1,13 +1,19 @@
 #include "Button.h"
 
-Button::Button(float x, float y, float width, float height, std::function<void(Button* button)> const& callback) :
-	m_buttonState(BUTTON_IDLE), m_idleColor(sf::Color::White), m_hoverColor(sf::Color::White), m_pressedColor(sf::Color::White), m_callback(callback)
+Button::Button(float x, float y, float width, float height, std::function<void(Button* button)> const& onLeftClick) :
+	m_buttonState(BUTTON_IDLE), m_idleColor(sf::Color::White), m_hoverColor(sf::Color::White), m_pressedColor(sf::Color::White), m_callbackOnLeftClick(onLeftClick), m_callbackOnRightClick(nullptr)
 {
 	initShape(x, y, width, height);
 }
 
-Button::Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void(Button* button)> const& callback) :
-	m_buttonState(BUTTON_IDLE), m_idleColor(idleColor), m_hoverColor(hoverColor), m_pressedColor(activeColor), m_callback(callback)
+Button::Button(float x, float y, float width, float height, std::function<void(Button* button)> const& onLeftClick , std::function<void(Button* button)> const& onRightClick) :
+	m_buttonState(BUTTON_IDLE), m_idleColor(sf::Color::White), m_hoverColor(sf::Color::White), m_pressedColor(sf::Color::White), m_callbackOnLeftClick(onLeftClick), m_callbackOnRightClick(onRightClick)
+{
+	initShape(x, y, width, height);
+}
+
+Button::Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void(Button* button)> const& onLeftClick) :
+	m_buttonState(BUTTON_IDLE), m_idleColor(idleColor), m_hoverColor(hoverColor), m_pressedColor(activeColor), m_callbackOnLeftClick(onLeftClick), m_callbackOnRightClick(nullptr)
 {
 
 	initShape(x, y, width, height);
@@ -40,10 +46,9 @@ const int& Button::getButtonState()
 	return m_buttonState;
 }
 
-void Button::setButtonState(int newState)
+void Button::setButtonState(button_states newState)
 {
-	if (newState >= BUTTON_IDLE && newState <= BUTTON_PRESSED)
-		m_buttonState = newState;
+	m_buttonState = newState;
 
 	switch (m_buttonState)
 	{
@@ -95,9 +100,17 @@ const sf::Color& Button::getPressedColor()
 	return m_pressedColor;
 }
 
-void Button::useCallback()
+void Button::useOnLeftClick()
 {
-	m_callback(this);
+	m_callbackOnLeftClick(this);
+}
+
+void Button::useOnRightClick()
+{
+	if (m_callbackOnRightClick!= nullptr)
+	{
+		m_callbackOnRightClick(this);
+	}
 }
 
 void Button::initShape(float x, float y, float width, float height)

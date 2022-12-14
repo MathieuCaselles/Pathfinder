@@ -66,6 +66,8 @@ void Game::initWindow(sf::VideoMode videoMode, std::string windowTitle)
 
 void Game::processInput()
 {
+
+    //TODO: signal pattern instead of this
     sf::Event event;
     while (m_window.pollEvent(event))
     {
