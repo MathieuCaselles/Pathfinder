@@ -13,7 +13,7 @@ class Game : public Singleton<Game>
 public:
 
     ~Game();
-    void run(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML");
+    void run(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML", sf::Uint32 style = sf::Style::Default);
 
     sf::RenderWindow* getWindow();
 
@@ -28,7 +28,7 @@ private:
     Game();
     Game(const Game&) = delete;
     // methods
-    void initWindow(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML");
+    void initWindow(sf::VideoMode videoMode = sf::VideoMode(1920, 1080), std::string windowTitle = "SFML", sf::Uint32 style = sf::Style::Default);
 
     void processInput();
     void update(const float& deltaTime);
