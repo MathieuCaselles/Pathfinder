@@ -1,5 +1,5 @@
-#ifndef EXAMPLEBUTTON_H
-#define EXAMPLEBUTTON_H
+#ifndef BUTTON_H
+#define BUTTON_H
 
 #include <functional>
 
@@ -14,11 +14,13 @@ enum button_states { BUTTON_IDLE = 0, BUTTON_HOVER, BUTTON_PRESSED };
 
 class Button: public GameObject<ICButton, PCButton, GCButton> {
 public:
-	Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void()> const& m_callback);
+	Button(float x, float y, float width, float height, std::function<void(Button* button)> const& onLeftClick);
+	Button(float x, float y, float width, float height, std::function<void(Button* button)> const& onLeftClick, std::function<void(Button* button)> const& onRightClick);
+	Button(float x, float y, float width, float height, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor, std::function<void(Button* button)> const& onLeftClick);
 	~Button();
 
 	const int& getButtonState();
-	void setButtonState(int newState);
+	virtual void setButtonState(button_states newState);
 
 	const sf::RectangleShape& getShape();
 	sf::RectangleShape& getEditableShape();
@@ -29,10 +31,13 @@ public:
 	const sf::Color& getHoverColor();
 	const sf::Color& getPressedColor();
 
-	void useCallback();
+	void useOnLeftClick();
+	void useOnRightClick();
 
-private:
-	int m_buttonState;
+protected:
+	void initShape(float x, float y, float width, float height);
+
+	button_states m_buttonState;
 
 	sf::RectangleShape m_shape;
 	sf::Text m_text;
@@ -43,9 +48,10 @@ private:
 	sf::Color m_hoverColor;
 	sf::Color m_pressedColor;
 
-	std::function<void()> m_callback;
+	std::function<void(Button* button)> m_callbackOnLeftClick;
+	std::function<void(Button* button)> m_callbackOnRightClick;
 };
 
 
-#endif // EXAMPLEBUTTON_H
+#endif // BUTTON_H
 

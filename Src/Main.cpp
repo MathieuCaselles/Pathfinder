@@ -8,7 +8,7 @@ int main()
     game->addScenes(new DefaultScene());
     game->setCurrentScene(ScenesEnum::DEFAULT_SCENE);
 
-    game->run(sf::VideoMode(1920, 1080), "Pathfinder");
+    game->run(sf::VideoMode(1920, 1080), "Pathfinder", sf::Style::Fullscreen);
 
     return 0;
 }

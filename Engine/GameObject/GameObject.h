@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include "../../Tools/DesignPatterns/Composite.h"
+
 #include "../Components/InputComponent.h"
 #include "../Components/PhysicsComponent.h"
 #include "../Components/GraphicsComponent.h"
@@ -11,7 +13,7 @@
 class IScene;
 
 
-class IGameObject
+class IGameObject: public Composite<IGameObject>
 {
 public:
 	virtual ~IGameObject() {};

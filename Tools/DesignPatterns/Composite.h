@@ -3,11 +3,11 @@
 #include <stdexcept>
 #include <functional>
 
-template<typename ChildCompositeType>
+template<typename ChildCompositeType> //Just allows to create different types of composites that will not mix together
 class Composite
 {
 public:
-    Composite(ChildCompositeType* parent = nullptr) : m_parent(nullptr)
+    Composite(Composite* parent = nullptr) : m_parent(nullptr)
     {
         setParent(parent);
     }
@@ -21,7 +21,7 @@ public:
             delete son;
     }
 
-    void setParent(ChildCompositeType* newParent)
+    void setParent(Composite* newParent)
     {
         if (m_parent)
             m_parent->_remove(this);
@@ -32,18 +32,18 @@ public:
             m_parent->_add(this);
     }
 
-    void add(ChildCompositeType* newChild)
+    void add(Composite* newChild)
     {
         newChild->setParent(this);
     }
 
-    using ChildrenListType = std::vector<ChildCompositeType*>;
+    using ChildrenListType = std::vector<Composite*>;
     const ChildrenListType& getChildren()
     {
         return m_sons;
     }
 
-    using TraverseCallbackType = std::function<void(const ChildCompositeType*)>;
+    using TraverseCallbackType = std::function<void(const Composite*)>;
     void traverse(TraverseCallbackType fn)
     {
         for (auto& son : m_sons)
@@ -53,12 +53,12 @@ public:
     }
 
 protected:
-    void _add(ChildCompositeType* newChild)
+    void _add(Composite* newChild)
     {
         m_sons.push_back(newChild);
     }
 
-    void _remove(ChildCompositeType* child)
+    void _remove(Composite* child)
     {
         auto it = std::find(m_sons.begin(), m_sons.end(), child);
         if (it == m_sons.end())
@@ -69,5 +69,5 @@ protected:
 
 private:
     ChildrenListType m_sons;
-    ChildCompositeType* m_parent;
+    Composite* m_parent;
 };

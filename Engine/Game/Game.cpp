@@ -9,11 +9,11 @@ Game::~Game()
     clearScenes();
 }
 
-void Game::run(sf::VideoMode videoMode, std::string windowTitle)
+void Game::run(sf::VideoMode videoMode, std::string windowTitle, sf::Uint32 style)
 {
     assert("m_pCurrentScene is nullptr", m_pCurrentScene != nullptr);
 
-    initWindow(videoMode, windowTitle);
+    initWindow(videoMode, windowTitle, style);
 
     sf::Clock DeltaTimeClock;
     float deltaTime;
@@ -58,14 +58,16 @@ Game::Game()
 }
 
 
-void Game::initWindow(sf::VideoMode videoMode, std::string windowTitle)
+void Game::initWindow(sf::VideoMode videoMode, std::string windowTitle, sf::Uint32 style)
 {
-    m_window.create(videoMode, windowTitle);
+    m_window.create(videoMode, windowTitle, style);
     m_window.setVerticalSyncEnabled(true);
 }
 
 void Game::processInput()
 {
+
+    //TODO: signal pattern instead of this
     sf::Event event;
     while (m_window.pollEvent(event))
     {
