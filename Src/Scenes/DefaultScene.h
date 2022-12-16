@@ -26,8 +26,11 @@ private:
 
     void resetPathButtons();
 
-    PathButton* m_startingPath;
-    PathButton* m_arrivalPath;
+    PathButton* p_startingPath;
+    PathButton* p_arrivalPath;
+
+    PathButton* p_pathToLink;
+
 
     path_states m_pathStateToApply;
 

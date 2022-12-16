@@ -9,7 +9,7 @@ class IGameObject;
 struct GCButton : IGraphicsComponent 
 {
 	GCButton();
-	void renderImplementation(IGameObject& gameObject, sf::RenderWindow& window) override;
+	virtual void renderImplementation(IGameObject& gameObject, sf::RenderWindow& window) override;
 };
 
 #endif // GCEXAMPLEBUTTON_H

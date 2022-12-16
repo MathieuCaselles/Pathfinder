@@ -1,7 +1,8 @@
 #include "DefaultScene.h"
 
 #include "../GameObjects/UI/PathButton.h"
-DefaultScene::DefaultScene() : IScene(), m_startingPath(nullptr), m_arrivalPath(nullptr), m_pathStateToApply(WALL)
+
+DefaultScene::DefaultScene() : IScene(), p_startingPath(nullptr), p_arrivalPath(nullptr), p_pathToLink(nullptr), m_pathStateToApply(WALL)
 {
     initButtons();
     initPathButtons();
@@ -13,32 +14,27 @@ DefaultScene::~DefaultScene()
 
 void DefaultScene::initButtons()
 {
-    addGameObjects(new Button(200, 1020, 150, 50, "Départ",
+    addGameObjects(new Button(450, 1020, 150, 50, "Départ",
         sf::Color(255, 0, 0), sf::Color(255, 75, 75), sf::Color(180, 0, 0),
         [&](Button* button) { m_pathStateToApply = START; }));
 
-    addGameObjects(new Button(400, 1020, 150, 50, "Arrivée",
+    addGameObjects(new Button(650, 1020, 150, 50, "Arrivée",
         sf::Color(0, 255, 0), sf::Color(127, 255, 127), sf::Color(0, 150, 0),
         [&](Button* button) { m_pathStateToApply = END; }));
 
-    addGameObjects(new Button(600, 1020, 150, 50, "Mur",
+    addGameObjects(new Button(850, 1020, 150, 50, "Mur/Chemin",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200),
-        [&](Button* button) { m_pathStateToApply = WALL; }));
-
-    addGameObjects(new Button(800, 1020, 150, 50, "Chemin",
-        sf::Color(200, 200, 200), sf::Color(225, 225, 225), sf::Color(175, 175, 175),
         [&](Button* button) { m_pathStateToApply = PASSABLE; }));
 
+    addGameObjects(new Button(1050, 1020, 150, 50, "Checkpoint",
+        sf::Color(255, 170, 0), sf::Color(255, 220, 75), sf::Color(180, 100, 0),
+        [&](Button* button) { m_pathStateToApply = CHEKCKPOINT; }));
 
-    addGameObjects(new Button(1000, 1020, 150, 50, "Réinitialiser",
+    addGameObjects(new Button(1250, 1020, 150, 50, "Réinitialiser",
         sf::Color(0, 0, 200), sf::Color(50, 50, 200), sf::Color(0, 0, 150),
         [&](Button* button) {  resetPathButtons(); }));
 
-    addGameObjects(new Button(1200, 1020, 150, 50, "Réinitialiser",
-        sf::Color(0, 0, 200), sf::Color(50, 50, 200), sf::Color(0, 0, 150),
-        [&](Button* button) {  resetPathButtons(); }));
-
-    addGameObjects(new Button(1400, 1020, 150, 50, "Calculer",
+    addGameObjects(new Button(1450, 1020, 150, 50, "Calculer",
         sf::Color(255, 218, 0), sf::Color(255, 231, 91), sf::Color(192, 164, 0),
         [&](Button* button) {  /*TODO*/; }));
 
@@ -46,7 +42,7 @@ void DefaultScene::initButtons()
 
 void DefaultScene::initPathButtons()
 {
-    const int gridSize = 100;
+    const int gridSize = 30;
     const int heightButton = 1000 / gridSize;
     const int widthButton = 1920 / gridSize;
 
@@ -63,7 +59,14 @@ void DefaultScene::initPathButtons()
                     applyPathButtonState(reinterpret_cast<PathButton*>(pathButton));
                 },
                 [&](Button* pathButton) {
-                    applyPathButtonState(reinterpret_cast<PathButton*>(pathButton));
+                    if (p_pathToLink != nullptr)
+                    {
+                        p_pathToLink->setPathState(p_pathToLink->getPreviousPathState());
+                    }
+                    PathButton* pPathButton = reinterpret_cast<PathButton*>(pathButton);
+                    pPathButton->setPathState(WAIT_TO_LINK);
+                    p_pathToLink = pPathButton;
+                    m_pathStateToApply = LINKED;
                 }));
         }
     }
@@ -84,6 +87,9 @@ void DefaultScene::resetPathButtons()
 void DefaultScene::processInput(sf::Event& inputEvent)
 {
     IScene::processInput(inputEvent);
+
+    if (inputEvent.key.code == sf::Keyboard::Escape)
+        m_window.close();
 
     for (std::vector<PathButton*>& pPathButtonVector : m_pathButtons)
     {
@@ -120,26 +126,46 @@ void DefaultScene::render()
 
 void DefaultScene::applyPathButtonState(PathButton* pathButton)
 {
-    pathButton->setPathState(m_pathStateToApply);
 
     switch (m_pathStateToApply)
     {
     case START:
-        if (m_startingPath != nullptr)
+        if (p_startingPath != nullptr)
         {
-            m_startingPath->setPathState(PASSABLE);
+            p_startingPath->setPathState(p_startingPath->getPreviousPathState());
         };
-        m_startingPath = pathButton;
+        p_startingPath = pathButton;
+        pathButton->setPathState(m_pathStateToApply);
         break;
 
     case END:
-        if (m_arrivalPath != nullptr)
+        if (p_arrivalPath != nullptr)
         {
-            m_arrivalPath->setPathState(PASSABLE);
+            p_arrivalPath->setPathState(p_arrivalPath->getPreviousPathState());
         };
-        m_arrivalPath = pathButton;
+        p_arrivalPath = pathButton;
+        pathButton->setPathState(m_pathStateToApply);
         break;
+
+    case PASSABLE:
+    case WALL:
+        pathButton->setPathState(pathButton->getPathState() == PASSABLE ? WALL : PASSABLE);
+        break;
+
+    case LINKED:
+        p_pathToLink->linkPathButton(pathButton);
+        p_pathToLink->setPathState(m_pathStateToApply);
+        pathButton->setPathState(m_pathStateToApply);
+        p_pathToLink = nullptr;
+        break;
+
+    case CHEKCKPOINT:
+        pathButton->setPathState(m_pathStateToApply);
+        break;
+
+
     default:
         break;
     }
+    m_pathStateToApply = PASSABLE;
 }
