@@ -2,6 +2,7 @@
 #define PATHBUTTON_H
 
 #include "Button.h"
+#include "../../Pathfinder/Header/Pathfinder.h"
 
 class Arrow;
 
@@ -15,8 +16,14 @@ public:
 	void setPathState(path_states newPathState);
 	const path_states getPathState();
 	const path_states getPreviousPathState();
+	std::vector<PathButton*>& getLinkedButtons();
 
 	void setButtonState(button_states newState) override;
+
+	void createNode(float x, float y);
+
+	Node<DCSManhattan>* getNode();
+
 
 	void linkPathButton(PathButton* pathButton);
 	void removeLinkedPathButton(PathButton* pathButton);
@@ -39,6 +46,8 @@ private:
 
 	std::vector<PathButton*> m_linkedButtons;
 	std::vector<Arrow*> m_arrows;
+
+	Node<DCSManhattan>* p_node;
 
 };
 

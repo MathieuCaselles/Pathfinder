@@ -26,13 +26,17 @@ private:
 
     void resetPathButtons();
 
+    void generateGraph();
+
+
     PathButton* p_startingPath;
     PathButton* p_arrivalPath;
 
     PathButton* p_pathToLink;
 
-
     path_states m_pathStateToApply;
+
+    int m_gridSize;
 
     std::vector<std::vector<PathButton*>> m_pathButtons;
 

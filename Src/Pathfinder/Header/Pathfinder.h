@@ -1,5 +1,6 @@
 #pragma once
 #include "../Header/Node.h"
+#include <iostream>
 
 template<typename DistanceCalculationSystem>
 inline std::vector<Node<DistanceCalculationSystem>*>* pathfinder(Node<DistanceCalculationSystem>& rootNode, Node<DistanceCalculationSystem>& goalNode)
@@ -29,6 +30,12 @@ inline std::vector<Node<DistanceCalculationSystem>*>* pathfinder(Node<DistanceCa
 
 		for (Node<DCS>* neighbor : currentNode->getNeighbors())
 		{
+			auto itVerif = std::find(closedList.begin(), closedList.end(), neighbor);
+			if (itVerif != closedList.end())
+			{
+				continue;
+			}
+
 			if (!neighbor->getUseState())
 			{
 				neighbor->setParent(currentNode);
@@ -47,12 +54,14 @@ inline std::vector<Node<DistanceCalculationSystem>*>* pathfinder(Node<DistanceCa
 				}
 
 				neighbor->computeHeuristic(goalNode);
-				openList.push_back(neighbor);
 				neighbor->setUseState(true);
+				openList.push_back(neighbor);
 			}
+
 
 			if (neighbor->computeCost())
 			{
+
 				neighbor->setParent(currentNode);
 			}
 		}

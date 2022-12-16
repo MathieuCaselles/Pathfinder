@@ -1,8 +1,8 @@
 #include "DefaultScene.h"
-
+#include <iostream>
 #include "../GameObjects/UI/PathButton.h"
 
-DefaultScene::DefaultScene() : IScene(), p_startingPath(nullptr), p_arrivalPath(nullptr), p_pathToLink(nullptr), m_pathStateToApply(WALL)
+DefaultScene::DefaultScene() : IScene(), p_startingPath(nullptr), p_arrivalPath(nullptr), p_pathToLink(nullptr), m_pathStateToApply(WALL), m_gridSize(30)
 {
     initButtons();
     initPathButtons();
@@ -36,25 +36,46 @@ void DefaultScene::initButtons()
 
     addGameObjects(new Button(1450, 1020, 150, 50, "Calculer",
         sf::Color(255, 218, 0), sf::Color(255, 231, 91), sf::Color(192, 164, 0),
-        [&](Button* button) {  /*TODO*/; }));
+        [&](Button* button) {
+
+            generateGraph();
+
+            std::vector<Node<DCSManhattan>*>* result = pathfinder<DCSManhattan>(*p_startingPath->getNode(), *p_arrivalPath->getNode());
+
+            if (result != nullptr)
+            {
+                for (Node<DCSManhattan>* node : *result)
+                {
+                    PathButton* tile = node->getTile();
+                    if (tile->getPathState() == PASSABLE)
+                    {
+                        tile->setPathState(TRAVERSED);
+                    }
+
+                }
+            }
+
+            delete result;
+            result = nullptr;
+       
+        }));
 
 }
 
 void DefaultScene::initPathButtons()
 {
-    const int gridSize = 30;
-    const int heightButton = 1000 / gridSize;
-    const int widthButton = 1920 / gridSize;
+    const int heightButton = 1000 / m_gridSize;
+    const int widthButton = 1920 / m_gridSize;
 
-    m_pathButtons.resize(gridSize);
+    m_pathButtons.resize(m_gridSize);
     std::fill(m_pathButtons.begin(), m_pathButtons.end(), std::vector<PathButton*>());
 
-    for (size_t column = 0; column < gridSize; ++column)
+    for (size_t y = 0; y < m_gridSize; ++y)
     {
 
-        for (size_t row = 0; row < gridSize; ++row)
+        for (size_t x = 0; x < m_gridSize; ++x)
         {
-            m_pathButtons[column].push_back(new PathButton(column * widthButton, row * heightButton, widthButton, heightButton,
+            m_pathButtons[y].push_back(new PathButton(x * widthButton, y * heightButton, widthButton, heightButton,
                 [&](Button* pathButton) {
                     applyPathButtonState(reinterpret_cast<PathButton*>(pathButton));
                 },
@@ -82,6 +103,80 @@ void DefaultScene::resetPathButtons()
             pathButton->setPathState(PASSABLE);
         }
     }
+}
+
+void DefaultScene::generateGraph()
+{
+    for (size_t y = 0; y < m_gridSize; ++y)
+    {
+        for (size_t x = 0; x < m_gridSize; ++x)
+        {
+            PathButton* pathButton = m_pathButtons.at(y).at(x);
+
+            if (pathButton->getPathState() != WALL)
+            {
+                pathButton->createNode(x, y);
+            }
+        }
+    }
+
+    for (size_t y = 0; y < m_gridSize; ++y)
+    {
+        for (size_t x = 0; x < m_gridSize; ++x)
+        {
+            PathButton* pathButton = m_pathButtons.at(y).at(x);
+            Node<DCSManhattan>* node = pathButton->getNode();
+
+            if (node == nullptr)
+            {
+                continue;
+            }
+
+            if (x > 0) // Add left
+            {
+                node->addNeighbor(m_pathButtons.at(y).at(x - 1)->getNode());
+            }
+            if (x < m_gridSize - 1) // Add right 
+            {
+                node->addNeighbor(m_pathButtons.at(y).at(x + 1)->getNode());
+            }
+            if (y > 0)// Add top 
+            {
+                node->addNeighbor(m_pathButtons.at(y - 1).at(x)->getNode());
+            }
+            if (y < m_gridSize - 1)// Add bottom 
+            {
+                node->addNeighbor(m_pathButtons.at(y + 1).at(x)->getNode());
+            }
+            if (x > 0 && y > 0) // add top-left
+            {
+                node->addNeighbor(m_pathButtons.at(y - 1).at(x - 1)->getNode());
+            }
+            if (x < m_gridSize - 1 && y > 0) // add top-right
+            {
+                node->addNeighbor(m_pathButtons.at(y - 1).at(x + 1)->getNode());
+            }
+            if (x < m_gridSize - 1 && y < m_gridSize - 1) // add bottom-right
+            {
+                node->addNeighbor(m_pathButtons.at(y + 1).at(x + 1)->getNode());
+            }
+            if (x > 0 && y < m_gridSize - 1) // add bottom-left
+            {
+                node->addNeighbor(m_pathButtons.at(y + 1).at(x - 1)->getNode());
+            }
+
+
+            if (pathButton->getPathState() == LINKED)
+            {
+                for (PathButton* pathButtonLinked : pathButton->getLinkedButtons())
+                {
+                    node->addNeighbor(pathButtonLinked->getNode());
+                }
+            }
+        }
+    }
+
+
 }
 
 void DefaultScene::processInput(sf::Event& inputEvent)

@@ -53,6 +53,12 @@ std::vector<NodeType*>& NodeBase<NodeType>::getNeighbors()
 }
 
 template <typename NodeType>
+PathButton* NodeBase<NodeType>::getTile()
+{
+	return p_tile;
+}
+
+template <typename NodeType>
 void NodeBase<NodeType>::setUseState(const bool newState)
 {
 	m_useState = newState;
@@ -87,10 +93,14 @@ void NodeBase<NodeType>::setParent(NodeType* newParent)
 template <typename NodeType>
 void NodeBase<NodeType>::addNeighbor(NodeType* newNeigbor)
 {
+	if (newNeigbor == nullptr)
+	{
+		return;
+	}
 	m_neighbors.push_back(newNeigbor);
 }
 
-Node<DCSManhattan>::Node() : NodeBase(), m_x(0.0f), m_y(0.0f)
+Node<DCSManhattan>::Node(PathButton* tile, float x, float y) : NodeBase(tile), m_x(x), m_y(y)
 {
 }
 
@@ -106,14 +116,14 @@ float Node<DCSManhattan>::getY() const
 
 void Node<DCSManhattan>::computeHeuristic(Node<DCSManhattan>& goalNode)
 {
-	setHeuristic((goalNode.getX() - getX()) + (goalNode.getY() - getY()));
+	setHeuristic(abs(goalNode.getX() - getX()) + abs(goalNode.getY() - getY()));
 }
 
 bool Node<DCSManhattan>::computeCost()
 {
-	if (getParent()->getCost() + (getParent()->getX() - getX()) + (getParent()->getY() - getY()) < getCost())
+	if (getParent()->getCost() + abs(getParent()->getX() - getX()) + abs(getParent()->getY() - getY()) < getCost())
 	{
-		setCost(getParent()->getCost() + (getParent()->getX() - getX()) + (getParent()->getY() - getY()));
+		setCost(getParent()->getCost() + abs(getParent()->getX() - getX()) + abs(getParent()->getY() - getY()));
 		return true;
 	}
 

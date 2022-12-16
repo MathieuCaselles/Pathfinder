@@ -21,6 +21,7 @@ public:
 	virtual float getWeight() const;
 	virtual NodeType* getParent();
 	virtual std::vector<NodeType*>& getNeighbors();
+	virtual PathButton* getTile();
 
 	// SET
 	virtual void setUseState(const bool newState);
@@ -56,7 +57,7 @@ template<>
 struct Node <DCSManhattan> : NodeBase <Node<DCSManhattan>>
 {
 public:
-	Node();
+	Node(PathButton* tile, float x, float y);
 
 	float getX() const;
 	float getY() const;

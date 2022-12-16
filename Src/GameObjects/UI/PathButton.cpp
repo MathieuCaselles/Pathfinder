@@ -4,7 +4,7 @@
 
 PathButton::PathButton(float x, float y, float width, float height, std::function<void(Button* button)> const& onLeftClick, std::function<void(Button* button)> const& onRightClick) : Button(x, y, width, height, onLeftClick, onRightClick),
 m_pathState(PASSABLE), m_previousPathState(PASSABLE), m_passableColor(sf::Color::White), m_wallColor(sf::Color(58, 58, 58)), m_traversedColor(sf::Color::Yellow), m_startColor(sf::Color::Red),
-m_endColor(sf::Color::Green), m_waitToLinkColor(sf::Color(184, 134, 255)), m_linkedColor(sf::Color(105, 0, 255)), m_checkpointColor(sf::Color(255, 170, 0))
+m_endColor(sf::Color::Green), m_waitToLinkColor(sf::Color(184, 134, 255)), m_linkedColor(sf::Color(105, 0, 255)), m_checkpointColor(sf::Color(255, 170, 0)), p_node(nullptr)
 {
 	m_shape.setFillColor(m_passableColor);
 	m_shape.setOutlineColor(sf::Color::Red);
@@ -77,9 +77,24 @@ const path_states PathButton::getPreviousPathState()
 	return m_previousPathState;
 }
 
+std::vector<PathButton*>& PathButton::getLinkedButtons()
+{
+	return m_linkedButtons;
+}
+
 
 void PathButton::setButtonState(button_states newState) {
 	m_buttonState = newState;
+}
+
+void PathButton::createNode(float x, float y)
+{
+	p_node = new Node<DCSManhattan>(this, x, y);
+}
+
+Node<DCSManhattan>* PathButton::getNode()
+{
+	return p_node;
 }
 
 void PathButton::linkPathButton(PathButton* pathButton)

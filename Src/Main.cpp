@@ -3,7 +3,6 @@
 #include "Scenes/DefaultScene.h"
 #include "Scenes/SceneEnum.h"
 
-#include "Pathfinder/Header/Pathfinder.h"
 
 int main()
 {
