@@ -25,6 +25,9 @@ private:
     void initPathButtons();
 
     void resetPathButtons();
+    void clearPathFound();
+    void clearNodes();
+
 
     void generateGraph();
 

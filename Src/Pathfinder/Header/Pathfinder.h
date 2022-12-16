@@ -28,6 +28,26 @@ inline std::vector<Node<DistanceCalculationSystem>*>* pathfinder(Node<DistanceCa
 			}
 		}
 
+		if (currentNode == &goalNode)
+		{
+			Node<DCS>* iterator = currentNode;
+
+			while (iterator->getParent())
+			{
+				resultPath->push_back(iterator);
+				iterator = iterator->getParent();
+			}
+
+			return resultPath;
+		}
+
+		auto it = std::find(openList.begin(), openList.end(), currentNode);
+
+		if (it != openList.end())
+		{
+			openList.erase(it);
+		}
+
 		for (Node<DCS>* neighbor : currentNode->getNeighbors())
 		{
 			auto itVerif = std::find(closedList.begin(), closedList.end(), neighbor);
@@ -39,38 +59,15 @@ inline std::vector<Node<DistanceCalculationSystem>*>* pathfinder(Node<DistanceCa
 			if (!neighbor->getUseState())
 			{
 				neighbor->setParent(currentNode);
-
-				if (neighbor == &goalNode)
-				{
-					Node<DCS>* iterator = neighbor;
-
-					while (iterator->getParent())
-					{
-						resultPath->push_back(iterator);
-						iterator = iterator->getParent();
-					}
-
-					return resultPath;
-				}
-
 				neighbor->computeHeuristic(goalNode);
 				neighbor->setUseState(true);
 				openList.push_back(neighbor);
 			}
 
-
 			if (neighbor->computeCost())
 			{
-
 				neighbor->setParent(currentNode);
 			}
-		}
-
-		auto it = std::find(openList.begin(), openList.end(), currentNode);
-
-		if (it != openList.end())
-		{
-			openList.erase(it);
 		}
 
 		closedList.push_back(currentNode);

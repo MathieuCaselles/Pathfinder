@@ -22,7 +22,7 @@ void PathButton::setPathState(path_states newPathState) {
 	if (m_previousPathState == LINKED && m_pathState != LINKED && m_pathState != WAIT_TO_LINK)
 	{
 		removeAllLinkedPathButtons();
-		m_previousPathState = PASSABLE; // To avoid switching back to LINK when the linked buttonsPaths have been unlinked
+		m_previousPathState = getPreviousPathState(); // To avoid switching back to LINK when the linked buttonsPaths have been unlinked
 	}
 
 
@@ -74,6 +74,8 @@ const path_states PathButton::getPathState()
 
 const path_states PathButton::getPreviousPathState()
 {
+	if (m_previousPathState != WALL && m_previousPathState != PASSABLE && m_previousPathState != CHEKCKPOINT)
+		m_previousPathState = PASSABLE;
 	return m_previousPathState;
 }
 
@@ -90,6 +92,12 @@ void PathButton::setButtonState(button_states newState) {
 void PathButton::createNode(float x, float y)
 {
 	p_node = new Node<DCSManhattan>(this, x, y);
+}
+
+void PathButton::deleteNote()
+{
+	delete p_node;
+	p_node = nullptr;
 }
 
 Node<DCSManhattan>* PathButton::getNode()
