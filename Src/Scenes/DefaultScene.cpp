@@ -34,7 +34,11 @@ void DefaultScene::initButtons()
         sf::Color(0, 0, 200), sf::Color(50, 50, 200), sf::Color(0, 0, 150),
         [&](Button* button) {  resetPathButtons(); }));
 
-    addGameObjects(new Button(1450, 1020, 150, 50, "Calculer",
+    addGameObjects(new Button(1450, 1020, 150, 50, "Reset Chemin",
+        sf::Color(0, 0, 200), sf::Color(50, 50, 200), sf::Color(0, 0, 150),
+        [&](Button* button) {  clearPathFound(); }));
+
+    addGameObjects(new Button(1650, 1020, 150, 50, "Calculer",
         sf::Color(255, 218, 0), sf::Color(255, 231, 91), sf::Color(192, 164, 0),
         [&](Button* button) {
 
@@ -57,6 +61,8 @@ void DefaultScene::initButtons()
 
             delete result;
             result = nullptr;
+
+            clearNodes();
        
         }));
 
@@ -101,6 +107,31 @@ void DefaultScene::resetPathButtons()
         for (auto* pathButton : vectorOfPathButtons)
         {
             pathButton->setPathState(PASSABLE);
+        }
+    }
+}
+
+void DefaultScene::clearPathFound()
+{
+    for (auto& vectorOfPathButtons : m_pathButtons)
+    {
+        for (auto* pathButton : vectorOfPathButtons)
+        {
+            if (pathButton->getPathState() == TRAVERSED)
+            {
+                pathButton->setPathState(PASSABLE);
+            }
+        }
+    }
+}
+
+void DefaultScene::clearNodes()
+{
+    for (auto& vectorOfPathButtons : m_pathButtons)
+    {
+        for (auto* pathButton : vectorOfPathButtons)
+        {
+            pathButton->deleteNote();
         }
     }
 }

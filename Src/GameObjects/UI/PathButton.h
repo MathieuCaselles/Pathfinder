@@ -21,6 +21,7 @@ public:
 	void setButtonState(button_states newState) override;
 
 	void createNode(float x, float y);
+	void deleteNote();
 
 	Node<DCSManhattan>* getNode();
 
