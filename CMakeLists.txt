@@ -10,7 +10,7 @@ add_executable (Pathfinder "Src/Main.cpp"  "Tools/DesignPatterns/Singleton.h" "E
 "Src/Scenes/SceneEnum.h" "Engine/Components/PhysicsComponent.h" "Engine/Components/InputComponent.h"  "Engine/Components/GraphicsComponent.h" "Tools/DesignPatterns/Composite.h" "Engine/GameObject/GameObject.h" "Src/GameObjects/UI/Button.h" 
 "Src/Components/InputComponents/UI/ICButton.h" "Src/Components/PhysicsComponents/UI/PCButton.h" "Src/Components/PhysicsComponents/UI/PCButton.cpp" "Src/Components/InputComponents/UI/ICButton.h" 
 "Src/Components/InputComponents/UI/ICButton.cpp" "Src/Components/GraphicsComponents/UI/GCButton.h" "Src/Components/GraphicsComponents/UI/GCButton.cpp" "Src/GameObjects/UI/Button.cpp" "Src/GameObjects/UI/PathButton.h" 
-"Src/GameObjects/UI/PathButton.cpp")
+"Src/GameObjects/UI/PathButton.cpp" "Src/Pathfinder/Sources/Node.cpp" "Src/Pathfinder/Header/Node.h" "Src/Pathfinder/Header/Pathfinder.h"  "Src/Pathfinder/Header/DCS/DCSManhattan.h" "Src/Pathfinder/Header/DCS/DCSEuclidean.h" "Src/Pathfinder/Header/DCS/DCSChebyshev.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Pathfinder PROPERTY CXX_STANDARD 20)
