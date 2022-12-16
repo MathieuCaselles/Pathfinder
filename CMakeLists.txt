@@ -11,7 +11,8 @@ add_executable (Pathfinder "Src/Main.cpp"  "Tools/DesignPatterns/Singleton.h" "E
 "Src/Components/InputComponents/UI/ICButton.h" "Src/Components/PhysicsComponents/UI/PCButton.h" "Src/Components/PhysicsComponents/UI/PCButton.cpp" "Src/Components/InputComponents/UI/ICButton.h" 
 "Src/Components/InputComponents/UI/ICButton.cpp" "Src/Components/GraphicsComponents/UI/GCButton.h" "Src/Components/GraphicsComponents/UI/GCButton.cpp" "Src/GameObjects/UI/Button.cpp" "Src/GameObjects/UI/PathButton.h" 
 "Src/GameObjects/UI/PathButton.cpp" "Src/GameObjects/UI/Arrow.h" "Src/Components/GraphicsComponents/GCVoid.h" "Src/Components/GraphicsComponents/GCVoid.cpp" "Src/Components/InputComponents/ICVoid.h" "Src/Components/InputComponents/ICVoid.cpp"
-"Src/Components/PhysicsComponents/PCVoid.h" "Src/Components/PhysicsComponents/PCVoid.cpp" "Src/Components/GraphicsComponents/UI/GCArrow.h" "Src/Components/GraphicsComponents/UI/GCArrow.cpp" "Src/GameObjects/UI/Arrow.cpp" "Tools/MathUtils.h")
+"Src/Components/PhysicsComponents/PCVoid.h" "Src/Components/PhysicsComponents/PCVoid.cpp" "Src/Components/GraphicsComponents/UI/GCArrow.h" "Src/Components/GraphicsComponents/UI/GCArrow.cpp" "Src/GameObjects/UI/Arrow.cpp" "Tools/MathUtils.h" 
+"Src/Pathfinder/Sources/Node.cpp" "Src/Pathfinder/Header/Node.h" "Src/Pathfinder/Header/Pathfinder.h"  "Src/Pathfinder/Header/DCS/DCSManhattan.h" "Src/Pathfinder/Header/DCS/DCSEuclidean.h" "Src/Pathfinder/Header/DCS/DCSChebyshev.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Pathfinder PROPERTY CXX_STANDARD 20)
